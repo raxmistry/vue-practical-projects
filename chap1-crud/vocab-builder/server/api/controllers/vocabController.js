@@ -3,13 +3,15 @@ const Vocab = mongoose.model('Vocab');
 
 exports.list_all_words = (req, res) => {
     console.log("listing all words");
-    Vocab.find({}, (err, words) => {
-        if (err) res.send(err);
+    Vocab.find({}, (err, words) => {    
+        if (err) 
+            res.send(err);    
         res.json(words);
     });
 };
 
 exports.create_a_word = (req, res) => {
+    console.log("Adding word: " + req.body);
     const newWord = new Vocab(req.body);
     newWord.save((err, word) => {
         if (err) res.send(err);
@@ -18,30 +20,31 @@ exports.create_a_word = (req, res) => {
 };
 
 exports.read_a_word = (req, res) => {
-  Vocab.findById(req.params.wordId, (err, word) => {
-    if (err) res.send(err);
-    res.json(word);
-  });
+    Vocab.findById(req.params.wordId, (err, word) => {
+        if (err) res.send(err);
+        res.json(word);
+    });
 };
 
 exports.update_a_word = (req, res) => {
-  Vocab.findOneAndUpdate(
-    { _id: req.params.wordId },
-    req.body,
-    { new: true },
-    (err, word) => {
-      if (err) res.send(err);
-      res.json(word);
-    }
-  );
+    Vocab.findOneAndUpdate(
+        { _id: req.params.wordId },
+        req.body,
+        { new: true },
+        (err, word) => {
+            if (err) res.send(err);
+            res.json(word);
+        }
+    );
 };
 
 exports.delete_a_word = (req, res) => {
-  Vocab.deleteOne({ _id: req.params.wordId }, err => {
-    if (err) res.send(err);
-    res.json({
-      message: 'Word successfully deleted',
-     _id: req.params.wordId
+    Vocab.deleteOne({ _id: req.params.wordId }, err => {
+        if (err) res.send(err);
+        res.json({
+            message: 'Word successfully deleted',
+            _id: req.params.wordId
+        });
     });
-  });
 };
+
